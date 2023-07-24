@@ -1,5 +1,5 @@
 const APIKey = '7z6eEs3v2WbjFzgimvVrjoMGciKoMXw7'
-const baseUrl = 'http://dataservice.accuweather.com/'
+const baseUrl = 'https://dataservice.accuweather.com/'
 
 const getCityUrl = cityName => `${baseUrl}locations/v1/cities/search?apikey=${APIKey}&q=${cityName}`
 
@@ -26,4 +26,4 @@ const getCityData = cityName => fetchData(getCityUrl(cityName))
 
 const getWeatherData = async cityKey => await fetchData(getWeatherUrl(cityKey))
 
-
+const getForecastsData = async cityKey => await fetchData(getForecastsUrl(cityKey))

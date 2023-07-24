@@ -24,7 +24,13 @@ const showTimeIcon = (WeatherIcon, WeatherText) => {
 const showCityInfo = async inputValue => {
     const [{ LocalizedName, Key }] = await getCityData(inputValue)
     const [{ WeatherText, IsDayTime, Temperature, WeatherIcon }] = await getWeatherData(Key)
-   
+
+    const { DailyForecasts } = await getForecastsData(Key)
+    DailyForecasts.map(item => {
+        const date = new Date(item.Date)
+        console.log(dateFns.format(date, 'DD/MMM'))
+    })
+
     cityTime.src = IsDayTime ? './src/day.svg' : './src/night.svg'
 
     timeIconContainer.innerHTML = showTimeIcon(WeatherIcon, WeatherText)
@@ -42,6 +48,7 @@ const formSubmitEvent = async event => {
 
     showCityInfo(inputValue)
     showCityCard()
+
 }
 
 
