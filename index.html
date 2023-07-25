@@ -9,12 +9,17 @@
 </head>
 
 <body>
-    <main>
+    <main data-js="main">
+        <div class="updated">
+            <span>Atualizado em:</span>
+            <span data-js="updated">DD/MM 00:00:00</span>
+        </div>
+
         <h2 class="main-title">Clima da cidade</h2>
         <form data-js="city-form" class="city-form">
             <label for="">Insira o nome da cidade</label>
             <input type="text" name="city" placeholder="Ex:Maranhão" autofocus>
-            <button>Buscar</button>
+            <button name="button">Buscar</button>
         </form>
 
         <div data-js="city-card" class="city-card hidded">
@@ -30,6 +35,10 @@
                     <span>&deg;C</span>
                 </div>
             </div>
+        </div>
+
+        <div data-js="city-forecasts" class="city-forecasts">
+
         </div>
     </main>
     <footer>
