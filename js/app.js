@@ -32,12 +32,12 @@ const showDateUpdated = () => {
     updatedContainer.textContent = updateDate
 }
 
-const showForecast = (Day, Temperature, date) => {
+const showForecast = (Day, Temperature, formattedDate) => {
     const { Maximum, Minimum } = Temperature
     const { IconPhrase, Icon } = Day
     const HTMLTemplate = `
                 <div class="infos">
-                    <span class="day">${date}</span>
+                    <span class="day">${formattedDate}</span>
                     <img  title="${IconPhrase}"  src="./src/icons/${Icon}.svg" alt="Icone da condição climatica ${IconPhrase}">
                     <p>Mínima</p>
                     <span>${Minimum.Value}</span>
@@ -57,10 +57,9 @@ const showCityInfo = async inputValue => {
 
     const { DailyForecasts } = await getForecastsData(Key)
 
-    DailyForecasts.map(item => {
-        const { Day, Temperature } = item
-        const date = dateFns.format(item.Date, 'DD/MM')
-        cityForecastsContainer.innerHTML += showForecast(Day, Temperature, date)
+    DailyForecasts.map(({ Day, Temperature, Date }) => {
+        const formattedDate = dateFns.format(Date, 'DD/MM')
+        cityForecastsContainer.innerHTML += showForecast(Day, Temperature, formattedDate)
     })
 
     cityForecastsContainer.insertAdjacentElement('beforebegin', subTitle)
