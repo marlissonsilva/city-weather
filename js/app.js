@@ -53,8 +53,13 @@ const showForecast = (Day, Temperature, formattedForecastsDate) => {
 }
 
 const showCityInfo = async inputValue => {
-
-    const [{ LocalizedName, Key, Country }] = await getCityData(inputValue)
+    const [cityData] = await getCityData(inputValue)
+    if (!cityData) {
+        alert('Cidade não encontrada')
+        return
+    }
+    showCityCard()
+    const { LocalizedName, Key, Country } = cityData
     const [{ WeatherText, IsDayTime, Temperature, WeatherIcon }] = await getWeatherData(Key)
 
     const { DailyForecasts } = await getForecastsData(Key)
@@ -75,9 +80,6 @@ const showCityInfo = async inputValue => {
     cityForm.reset()
 }
 
-
-
-
 const formSubmitEvent = event => {
     event.preventDefault()
     const inputValue = event.target.city.value
@@ -85,9 +87,9 @@ const formSubmitEvent = event => {
         return
     }
     showCityInfo(inputValue)
-    showCityCard()
     showDateUpdated()
     cityForecastsContainer.innerHTML = ''
+
 }
 
 cityForm.addEventListener('submit', formSubmitEvent)

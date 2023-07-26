@@ -1,4 +1,4 @@
-const APIKey = 'EIzVQrLvIA0bHCXXxtDbUm7oQyiiILqU'
+const APIKey = 'zClRiTKqllgL7evrnitKjVCB4loL4B9L'
 const baseUrl = 'https://dataservice.accuweather.com/'
 
 const getCityUrl = cityName => `${baseUrl}locations/v1/cities/search?apikey=${APIKey}&q=${cityName}`
@@ -16,6 +16,7 @@ const fetchData = async url => {
         if (!response.ok) {
             throw new Error(`Não foi possível obter os dados!`)
         }
+
         return response.json()
     } catch ({ name, message }) {
         alert(`${name} : ${message}`)
