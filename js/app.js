@@ -28,16 +28,18 @@ const showTimeIcon = (WeatherIcon, WeatherText) => {
 }
 
 const showDateUpdated = () => {
-    const updateDate = dateFns.format(new Date(), 'DD/MM HH:mm:ss')
-    updatedContainer.textContent = updateDate
+    const options = { month: 'short', day: 'numeric' };
+    const updateDate = new Date().toLocaleString('pt-BR', options)
+    const updateHour = new Date().toLocaleTimeString('pt-BR').slice(0, 5)
+    updatedContainer.textContent = `${updateDate} - ${updateHour}`
 }
 
-const showForecast = (Day, Temperature, formattedDate) => {
+const showForecast = (Day, Temperature, formattedForecastsDate) => {
     const { Maximum, Minimum } = Temperature
     const { IconPhrase, Icon } = Day
     const HTMLTemplate = `
                 <div class="infos">
-                    <span class="day">${formattedDate}</span>
+                    <span class="day">${formattedForecastsDate}</span>
                     <img  title="${IconPhrase}"  src="./src/icons/${Icon}.svg" alt="Icone da condição climatica ${IconPhrase}">
                     <p>Mínima</p>
                     <span>${Minimum.Value}</span>
@@ -57,9 +59,10 @@ const showCityInfo = async inputValue => {
 
     const { DailyForecasts } = await getForecastsData(Key)
 
-    DailyForecasts.map(({ Day, Temperature, Date }) => {
-        const formattedDate = dateFns.format(Date, 'DD/MM')
-        cityForecastsContainer.innerHTML += showForecast(Day, Temperature, formattedDate)
+    DailyForecasts.map(({ Day, Temperature, Date: DateForecasts }) => {
+        const forecastsDate = new Date(DateForecasts).toLocaleDateString()
+        const formattedForecastsDate = forecastsDate.slice(0, 5)
+        cityForecastsContainer.innerHTML += showForecast(Day, Temperature, formattedForecastsDate)
     })
 
     cityForecastsContainer.insertAdjacentElement('beforebegin', subTitle)
@@ -75,7 +78,7 @@ const showCityInfo = async inputValue => {
 
 
 
-const formSubmitEvent = async event => {
+const formSubmitEvent = event => {
     event.preventDefault()
     const inputValue = event.target.city.value
     if (!inputValue) {
