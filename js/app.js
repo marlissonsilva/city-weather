@@ -14,14 +14,6 @@ const updatedContainer = document.querySelector('[data-js="updated"]')
 const subTitle = document.createElement('h3')
 subTitle.textContent = 'Previsões para 5 dias'
 
-
-const showCityCard = () => {
-    const classHiddedExists = cityCard.classList.contains('hidded')
-    if (classHiddedExists) {
-        cityCard.classList.remove('hidded')
-    }
-}
-
 const showTimeIcon = (WeatherIcon, WeatherText) => {
     timeIcon = `<img src="./src/icons/${WeatherIcon}.svg" alt="${WeatherText}">`
     return timeIcon
@@ -58,26 +50,27 @@ const showCityInfo = async inputValue => {
         alert('Cidade não encontrada')
         return
     }
-    showCityCard()
+
     const { LocalizedName, Key, Country } = cityData
     const [{ WeatherText, IsDayTime, Temperature, WeatherIcon }] = await getWeatherData(Key)
 
     const { DailyForecasts } = await getForecastsData(Key)
 
-    DailyForecasts.map(({ Day, Temperature, Date: DateForecasts }) => {
+    DailyForecasts.forEach(({ Day, Temperature, Date: DateForecasts }) => {
         const forecastsDate = new Date(DateForecasts).toLocaleDateString()
         const formattedForecastsDate = forecastsDate.slice(0, 5)
         cityForecastsContainer.innerHTML += showForecast(Day, Temperature, formattedForecastsDate)
     })
 
     cityForecastsContainer.insertAdjacentElement('beforebegin', subTitle)
-    cityTime.src = IsDayTime ? './src/day.svg' : './src/night.svg'
+    cityTime.src = `./src/${IsDayTime ? 'day' : 'night'}.svg`
     timeIconContainer.innerHTML = showTimeIcon(WeatherIcon, WeatherText)
     cityNameContainer.textContent = LocalizedName + ' - ' + Country.ID
     cityWeatherContainer.textContent = WeatherText
     cityTemperatureContainer.textContent = Temperature.Metric.Value
     showTimeIcon(WeatherIcon, WeatherText)
     cityForm.reset()
+    cityCard.classList.remove('hidded')
 }
 
 const formSubmitEvent = event => {
