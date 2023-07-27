@@ -20,7 +20,7 @@ const showTimeIcon = (WeatherIcon, WeatherText) => {
 }
 
 const showDateUpdated = () => {
-    const options = { month: 'short', day: 'numeric' };
+    const options = { day: 'numeric', month: 'short' };
     const updateDate = new Date().toLocaleString('pt-BR', options)
     const updateHour = new Date().toLocaleTimeString('pt-BR').slice(0, 5)
     updatedContainer.textContent = `${updateDate} - ${updateHour}`
