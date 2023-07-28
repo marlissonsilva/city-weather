@@ -50,7 +50,6 @@ const showCityInfo = async inputValue => {
         alert('Cidade não encontrada')
         return
     }
-
     const { LocalizedName, Key, Country } = cityData
     const [{ WeatherText, IsDayTime, Temperature, WeatherIcon }] = await getWeatherData(Key)
 
@@ -81,8 +80,19 @@ const formSubmitEvent = event => {
     }
     showCityInfo(inputValue)
     showDateUpdated()
+    localStorage.setItem('city', inputValue)
     cityForecastsContainer.innerHTML = ''
 
 }
 
+const showLocalStorageCity = () => {
+    const city = localStorage.getItem('city')
+    if (city) {
+        showCityInfo(city)
+        showDateUpdated()
+        cityForecastsContainer.innerHTML = ''
+    }
+}
+
 cityForm.addEventListener('submit', formSubmitEvent)
+showLocalStorageCity()
